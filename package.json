@@ -1,0 +1,42 @@
+{
+  "name": "nuxt-module-utils",
+  "version": "0.0.1",
+  "description": "A collection of utility functions for Nuxt module authors.",
+  "type": "module",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/bobbiegoede",
+  "keywords": [
+    "nuxt",
+    "module"
+  ],
+  "author": {
+    "name": "Bobbie Goede",
+    "email": "bobbiegoede@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Bobbie Goede (@BobbieGoede)"
+    }
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "release": "pnpm bumpp && pnpm publish"
+  },
+  "packageManager": "pnpm@10.11.1",
+  "devDependencies": {
+    "@nuxt/kit": "^3.17.5",
+    "bumpp": "^10.1.1",
+    "tsdown": "^0.12.7",
+    "typescript": "^5.8.3"
+  }
+}
