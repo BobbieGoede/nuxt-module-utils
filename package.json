@@ -1,6 +1,6 @@
 {
   "name": "nuxt-module-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A collection of utility functions for Nuxt module authors.",
   "type": "module",
   "license": "MIT",
