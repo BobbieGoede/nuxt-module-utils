@@ -1,22 +1,16 @@
 import defu from "defu";
-import {
-  type PackageJson,
-  readPackageJSON,
-  resolvePackageJSON,
-} from "pkg-types";
+import { type PackageJson, readPackageJSON, resolvePackageJSON } from "pkg-types";
 import { resolveModulePath } from "exsolve";
 import { dirname } from "pathe";
 import { directoryToURL, tryUseNuxt, useNuxt } from "@nuxt/kit";
+import { version } from "nuxt/package.json";
+const isVersion4 = version.startsWith("4");
 
 /**
  * Adapted from Nuxt source code
  * https://github.com/nuxt/nuxt/blob/a0f9ddfe241bcf555f6305aa10c087a1fe64af87/packages/nuxt/src/core/utils/types.ts#L6
  */
-async function resolveTypePath(
-  path: string,
-  subpath: string,
-  searchPaths = tryUseNuxt()?.options.modulesDir,
-) {
+async function resolveTypePath(path: string, subpath: string, searchPaths = tryUseNuxt()?.options.modulesDir) {
   try {
     const r = resolveModulePath(path, {
       from: searchPaths?.map((d) => directoryToURL(d)),
@@ -38,9 +32,7 @@ async function resolveTypePath(
  * https://github.com/nuxt/nuxt/blob/5146bed75eb1a6617e2fb17ea97b3d121cd94930/packages/nuxt/src/core/nuxt.ts
  */
 export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
-  const packageJSON = await readPackageJSON(nuxt.options.rootDir).catch(
-    () => ({}) as PackageJson,
-  );
+  const packageJSON = await readPackageJSON(nuxt.options.rootDir).catch(() => ({} as PackageJson));
   const NESTED_PKG_RE = /^[^@]+\//;
   const dependencies = new Set([
     ...Object.keys(packageJSON.dependencies || {}),
@@ -50,9 +42,7 @@ export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
   const paths = Object.fromEntries(
     await Promise.all(
       hoist.map(async (pkg) => {
-        const [_pkg = pkg, _subpath] = NESTED_PKG_RE.test(pkg)
-          ? pkg.split("/")
-          : [pkg];
+        const [_pkg = pkg, _subpath] = NESTED_PKG_RE.test(pkg) ? pkg.split("/") : [pkg];
         const subpath = _subpath ? "/" + _subpath : "";
 
         // ignore packages that exist in `package.json` as these can be resolved by TypeScript
@@ -60,18 +50,14 @@ export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
           return [];
         }
 
-        const path = await resolveTypePath(
-          _pkg + subpath,
-          subpath,
-          nuxt.options.modulesDir,
-        );
+        const path = await resolveTypePath(_pkg + subpath, subpath, nuxt.options.modulesDir);
         if (path) {
           return [[pkg, [path]]];
         }
 
         return [];
-      }),
-    ).then((r) => r.flat()),
+      })
+    ).then((r) => r.flat())
   );
 
   // Set nitro resolutions for types that might be obscured with shamefully-hoist=false
@@ -85,13 +71,10 @@ export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
     opts.tsConfig.compilerOptions = defu(opts.tsConfig.compilerOptions, {
       paths: { ...paths },
     });
-    opts.nodeTsConfig.compilerOptions = defu(
-      opts.nodeTsConfig.compilerOptions,
-      { paths: { ...paths } },
-    );
-    opts.sharedTsConfig.compilerOptions = defu(
-      opts.sharedTsConfig.compilerOptions,
-      { paths: { ...paths } },
-    );
+
+    if (isVersion4) {
+      opts.nodeTsConfig.compilerOptions = defu(opts.nodeTsConfig.compilerOptions, { paths: { ...paths } });
+      opts.sharedTsConfig.compilerOptions = defu(opts.sharedTsConfig.compilerOptions, { paths: { ...paths } });
+    }
   });
 }

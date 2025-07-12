@@ -47,6 +47,7 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
+    "nuxt": "^3.16.0 || ^4.0.0-rc.0",
     "@nuxt/kit": "^3.16.0 || ^4.0.0-rc.0",
     "@nuxt/schema": "^3.16.0 || ^4.0.0-rc.0"
   },
