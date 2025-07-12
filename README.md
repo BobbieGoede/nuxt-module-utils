@@ -14,17 +14,25 @@ A collection of utility functions for Nuxt module authors.
 npm i nuxt-module-utils
 ```
 
-<!-- ## Usage
+## Usage
+
+### `hoistDependencies(hoist: string[])`
+
+While Nuxt provides the `typescript.hoist` option to generate aliases for nested dependencies within pnpm monorepos, it is processed before modules are set up.
+
+The `hoistDependencies` utility allows you to hoist dependencies from within your module's `setup` function. It works by resolving the paths of the specified packages and adding them to Nuxt's TypeScript configuration, ensuring they are included in the generated `tsconfig.json`.
 
 ```ts
 // src/module.ts
-import { someUtil } from 'nuxt-module-utils'
+import { defineNuxtModule } from '@nuxt/kit'
+import { hoistDependencies } from 'nuxt-module-utils'
 
 export default defineNuxtModule({
-  setup() {
+  async setup() {
+    await hoistDependencies(['my-lib', 'my-other-lib'])
   }
 })
-``` -->
+```
 
 ## Sponsors
 
