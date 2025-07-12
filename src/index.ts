@@ -1,1 +1,1 @@
-export default function init() {}
+export { hoistDependencies } from "./hoist";

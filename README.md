@@ -8,7 +8,6 @@
 
 A collection of utility functions for Nuxt module authors.
 
-
 ## Installation
 
 ```bash
@@ -34,4 +33,3 @@ export default defineNuxtModule({
     <img src="https://raw.githubusercontent.com/bobbiegoede/static/main/sponsors.svg" />
   </a>
 </p>
-
