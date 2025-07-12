@@ -5,6 +5,13 @@
   "type": "module",
   "license": "MIT",
   "funding": "https://github.com/sponsors/bobbiegoede",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobbiegoede/nuxt-module-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bobbiegoede/nuxt-module-utils/issues"
+  },
   "keywords": [
     "nuxt",
     "module"
