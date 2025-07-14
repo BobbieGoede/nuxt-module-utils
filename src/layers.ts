@@ -12,7 +12,7 @@ type GetModuleOptions<
  * This takes into account both inline module options specified in the `modules` array
  * and options specified in the layer's config under a specific key.
  *
- * Returns the merged options if both are provided, or the first available option.
+ * Returns the merged options (keyed config taking precedence) if both are configured, or the first available option.
  *
  * @param layer - a {@link NuxtConfigLayer | Nuxt Layer} from `nuxt.options._layers`
  * @param configKey - the key used to configure module options in nuxt.config

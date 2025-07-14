@@ -38,7 +38,7 @@ export default defineNuxtModule({
 
 Get module options from a given Nuxt layer.
 
-This takes into account both inline module options specified in the `modules` array and options specified in the layer's config under a specific key. It returns the merged options if both are configured, or the first available option.
+This takes into account both inline module options specified in the `modules` array and options specified in the layer's config under a specific key. It returns the merged options (keyed config taking precedence) if both are configured, or the first available option.
 
 ```ts
 // src/module.ts
