@@ -37,6 +37,7 @@ node_modules
 
 # Build output
 /lib
+*.tgz
 
 # Test output
 /.nyc_output
