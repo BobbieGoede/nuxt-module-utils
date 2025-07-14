@@ -34,6 +34,39 @@ export default defineNuxtModule({
 })
 ```
 
+### `getLayerModuleOptions<T>(layer: NuxtConfigLayer, configKey: string, name: string)`
+
+Get module options from a given Nuxt layer.
+
+This takes into account both inline module options specified in the `modules` array and options specified in the layer's config under a specific key. It returns the merged options if both are configured, or the first available option.
+
+```ts
+// src/module.ts
+import { defineNuxtModule } from '@nuxt/kit'
+import { getLayerModuleOptions } from 'nuxt-module-utils'
+
+export interface ModuleOptions {
+  myOption?: string
+}
+
+export default defineNuxtModule<ModuleOptions>({
+  meta: {
+    name: 'my-module',
+    configKey: 'myModule', // key in nuxt.config
+  },
+  async setup(options, nuxt) {
+    for (const layer of nuxt.options._layers) {
+      const layerModuleOptions = getLayerModuleOptions(
+        layer,
+        'myModule', // key in nuxt.config
+        'my-module' // name in modules array
+      )
+      // ...
+    }
+  }
+})
+```
+
 ## Sponsors
 
 <p align="center">
