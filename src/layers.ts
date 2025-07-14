@@ -1,10 +1,9 @@
 import type { NuxtConfigLayer } from "@nuxt/schema";
 import { defu } from "defu";
 
-type GetModuleOptions<
-  T,
-  K extends keyof NuxtConfigLayer["config"],
-> = [T] extends [never] ? NuxtConfigLayer["config"][K] : T;
+type GetModuleOptions<T, K extends keyof NuxtConfigLayer["config"]> = [T] extends [never]
+  ? NuxtConfigLayer["config"][K]
+  : T;
 
 /**
  * Get module options from a given Nuxt layer
@@ -21,21 +20,14 @@ type GetModuleOptions<
  */
 export function getLayerModuleOptions<
   T = never,
-  K extends keyof NuxtConfigLayer["config"] = keyof NuxtConfigLayer["config"],
->(
-  layer: NuxtConfigLayer,
-  configKey: K,
-  name: string,
-): GetModuleOptions<T, K> | undefined {
+  K extends keyof NuxtConfigLayer["config"] = keyof NuxtConfigLayer["config"]
+>(layer: NuxtConfigLayer, configKey: K, name: string): GetModuleOptions<T, K> | undefined {
   type Options = GetModuleOptions<T, K>;
 
   const matchInlineOptions = (mod: any): mod is [string, Options] =>
     Array.isArray(mod) && typeof mod[0] === "string" && mod[0] === name;
 
-  const modules = (layer.config.modules || []) as [
-    string,
-    unknown | undefined,
-  ][];
+  const modules = (layer.config.modules || []) as [string, unknown | undefined][];
   const inlineOptions = modules.find(matchInlineOptions)?.[1];
   const keyOptions = layer.config[configKey] as Options | undefined;
 

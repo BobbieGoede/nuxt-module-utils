@@ -1,10 +1,8 @@
-import defu from "defu";
+import { defu } from "defu";
 import { type PackageJson, readPackageJSON, resolvePackageJSON } from "pkg-types";
 import { resolveModulePath } from "exsolve";
 import { dirname } from "pathe";
 import { directoryToURL, tryUseNuxt, useNuxt } from "@nuxt/kit";
-import { version } from "nuxt/package.json";
-const isVersion4 = version.startsWith("4");
 
 /**
  * @see [Nuxt source](https://github.com/nuxt/nuxt/blob/a0f9ddfe241bcf555f6305aa10c087a1fe64af87/packages/nuxt/src/core/utils/types.ts#L6)
@@ -38,6 +36,7 @@ async function resolveTypePath(path: string, subpath: string, searchPaths = tryU
  * @see [Nuxt source](https://github.com/nuxt/nuxt/blob/5146bed75eb1a6617e2fb17ea97b3d121cd94930/packages/nuxt/src/core/nuxt.ts#L188-L290)
  */
 export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
+  const isVersion4 = (await readPackageJSON("nuxt"))?.version?.startsWith("4");
   const packageJSON = await readPackageJSON(nuxt.options.rootDir).catch(() => ({} as PackageJson));
   const NESTED_PKG_RE = /^[^@]+\//;
   const dependencies = new Set([
