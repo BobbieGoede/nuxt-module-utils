@@ -18,6 +18,9 @@ npm i nuxt-module-utils
 
 ### `hoistDependencies(hoist: string[])`
 
+> [!NOTE]
+> [Nuxt `4.0.0+` now supports modules adding to `typescript.hoist`](https://github.com/nuxt/nuxt/pull/32601), this utility is only needed to support projects using Nuxt `3.x` with `compatibilityVersion: 4`.
+
 While Nuxt provides the `typescript.hoist` option to generate aliases for nested dependencies within pnpm monorepos, it is processed before modules are set up.
 
 The `hoistDependencies` utility allows you to hoist dependencies from within your module's `setup` function. It works by resolving the paths of the specified packages and adding them to Nuxt's TypeScript configuration, ensuring they are included in the generated `tsconfig.json`.
