@@ -16,27 +16,6 @@ npm i nuxt-module-utils
 
 ## Usage
 
-### `hoistDependencies(hoist: string[])`
-
-> [!NOTE]
-> [Nuxt `4.0.0+` now supports modules adding to `typescript.hoist`](https://github.com/nuxt/nuxt/pull/32601), this utility is only needed to support projects using Nuxt `3.x` with `compatibilityVersion: 4`.
-
-While Nuxt provides the `typescript.hoist` option to generate aliases for nested dependencies within pnpm monorepos, it is processed before modules are set up.
-
-The `hoistDependencies` utility allows you to hoist dependencies from within your module's `setup` function. It works by resolving the paths of the specified packages and adding them to Nuxt's TypeScript configuration, ensuring they are included in the generated `tsconfig.json`.
-
-```ts
-// src/module.ts
-import { defineNuxtModule } from '@nuxt/kit'
-import { hoistDependencies } from 'nuxt-module-utils'
-
-export default defineNuxtModule({
-  async setup() {
-    await hoistDependencies(['my-lib', 'my-other-lib'])
-  }
-})
-```
-
 ### `getLayerModuleOptions<T>(layer: NuxtConfigLayer, configKey: string, name: string)`
 
 Get module options from a given Nuxt layer.
@@ -66,6 +45,25 @@ export default defineNuxtModule<ModuleOptions>({
       )
       // ...
     }
+  }
+})
+```
+
+### `hoistDependencies(hoist: string[])`
+
+> [!WARNING]
+> Deprecated and will be removed in v1 - [Nuxt `4.0.0` supports modules adding to `typescript.hoist`](https://github.com/nuxt/nuxt/pull/32601)
+
+The `hoistDependencies` utility allows you to hoist dependencies from within your module's `setup` function. It works by resolving the paths of the specified packages and adding them to Nuxt's TypeScript configuration, ensuring they are included in the generated `tsconfig.json`.
+
+```ts
+// src/module.ts
+import { defineNuxtModule } from '@nuxt/kit'
+import { hoistDependencies } from 'nuxt-module-utils'
+
+export default defineNuxtModule({
+  async setup() {
+    await hoistDependencies(['my-lib', 'my-other-lib'])
   }
 })
 ```

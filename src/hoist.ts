@@ -34,6 +34,7 @@ async function resolveTypePath(path: string, subpath: string, searchPaths = tryU
  * @param nuxt - The Nuxt instance.
  *
  * @see [Nuxt source](https://github.com/nuxt/nuxt/blob/5146bed75eb1a6617e2fb17ea97b3d121cd94930/packages/nuxt/src/core/nuxt.ts#L188-L290)
+ * @deprecated Module support for `typescript.hoist` was added in Nuxt 4.0.0.
  */
 export async function hoistDependencies(hoist: string[], nuxt = useNuxt()) {
   const isVersion4 = (await readPackageJSON("nuxt"))?.version?.startsWith("4");
